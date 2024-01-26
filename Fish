@@ -33,6 +33,7 @@ end
 
 local function waitGameState(state)
     repeat
+        network.Instancing_FireCustomFromClient:FireServer("AdvancedFishing", "Clicked")
         runService.RenderStepped:Wait()
     until InGame == state
 end
@@ -79,19 +80,17 @@ while task.wait(1) do
             local myAnchor = getRod():WaitForChild("FishingLine").Attachment0
 
             repeat
-                network.Instancing_FireCustomFromClient:FireServer("AdvancedFishing", "Clicked")
                 runService.RenderStepped:Wait()
             until not active:FindFirstChild("AdvancedFishing") or (myAnchor and getBubbles(myAnchor)) or InGame
 
             if active:FindFirstChild("AdvancedFishing") then
                 network.Instancing_FireCustomFromClient:FireServer("AdvancedFishing", "RequestReel")
-                waitGameState(true)
                 waitGameState(false)
             end
 
             repeat
                 network.Instancing_FireCustomFromClient:FireServer("AdvancedFishing", "Clicked")
-                run.RenderStepped:Wait()
+                runService.RenderStepped:Wait()
             until not active:FindFirstChild("AdvancedFishing") or (getRod() and getRod().Parent.Bobber.Transparency <= 0)
         end
     end)
