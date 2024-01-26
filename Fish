@@ -10,7 +10,6 @@ local Container = Workspace:WaitForChild("__THINGS")
 local Active = Container:WaitForChild("__INSTANCE_CONTAINER"):WaitForChild("Active")
 local Debris = Workspace:WaitForChild("__DEBRIS")
 local Network = ReplicatedStorage:WaitForChild("Network")
-local FishingModule = require(Active.AdvancedFishing.ClientModule.FishingGame)
 local Functions = {}
 
 local Teleport = function(Pos) 
@@ -18,6 +17,10 @@ local Teleport = function(Pos)
 end
 
 Teleport(workspace.__THINGS.Instances.AdvancedFishing.Teleports.Enter.Position)
+
+wait(2)
+
+local FishingModule = require(Active.AdvancedFishing.ClientModule.FishingGame)
 
 for i, v in pairs(FishingModule) do
     Functions[i] = v
