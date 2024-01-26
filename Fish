@@ -32,12 +32,8 @@ AdvancedFishingModule.StopGame = function(...)
 end
 
 local function waitGameState(state)
-    local clicked 
     repeat
-        clicked = runService.Heartbeat:Connect(function()
-            network.Instancing_FireCustomFromClient:FireServer("AdvancedFishing", "Clicked")
-            clicked:Disconnect()
-        end)
+        network.Instancing_FireCustomFromClient:FireServer("AdvancedFishing", "Clicked")
         runService.Heartbeat:Wait()
     until InGame == state
 end
