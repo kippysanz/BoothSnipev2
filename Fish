@@ -85,7 +85,6 @@ while task.wait(1) do
             end
 
             repeat
-                network.Instancing_FireCustomFromClient:FireServer("AdvancedFishing", "Clicked")
                 runService.RenderStepped:Wait()
             until not active:FindFirstChild("AdvancedFishing") or (getRod() and getRod().Parent.Bobber.Transparency <= 0)
         end
