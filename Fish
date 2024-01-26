@@ -10,8 +10,6 @@ end
 
 Teleport(workspace.__THINGS.Instances.AdvancedFishing.Teleports.Enter.Position)
 
-wait(4)
-
 local Workspace = game:GetService("Workspace")
 local RunService = game:GetService("RunService")
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
@@ -22,7 +20,14 @@ local Debris = Workspace:WaitForChild("__DEBRIS")
 local Network = ReplicatedStorage:WaitForChild("Network")
 local Functions = {}
 
-local FishingModule = require(Active.AdvancedFishing.ClientModule.FishingGame)
+local FishingModule
+
+repeat 
+    RunService.RenderStepped:Wait()
+    pcall(function()
+        FishingModule = require(Active.AdvancedFishing.ClientModule.FishingGame)
+    end)
+until FishingModule
 
 for i, v in pairs(FishingModule) do
     Functions[i] = v
@@ -74,7 +79,7 @@ while task.wait(1) do
         local FishingInstance = Container.__INSTANCE_CONTAINER.Active:FindFirstChild("AdvancedFishing")
 
         if FishingInstance and not InGame then
-            Network.Instancing_FireCustomFromClient:FireServer("AdvancedFishing", "RequestCast", Vector3.new(1460, 66.0672, -4449.9927))
+            Network.Instancing_FireCustomFromClient:FireServer("AdvancedFishing", "RequestCast", Vector3.new(1158 + math.random(-10, 10), 75, -3454 + math.random(-10, 10)))
             local MyAnchor = getRod():WaitForChild("FishingLine").Attachment0
                 
             repeat
