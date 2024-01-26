@@ -8,13 +8,15 @@ local Container = Workspace:WaitForChild("__THINGS")
 local Active = Container:WaitForChild("__INSTANCE_CONTAINER"):WaitForChild("Active")
 local Debris = Workspace:WaitForChild("__DEBRIS")
 local Network = ReplicatedStorage:WaitForChild("Network")
-local FishingModule = require(Active.AdvancedFishing.ClientModule.FishingGame)
-local Functions = {}
+
 
 if not game:IsLoaded() then game.Loaded:Wait() end
 
-Network.Instancing_PlayerEnterInstance:FireServer("AdvancedFishing")
-Network.Instancing_InvokeCustomFromClient:FireServer("AdvancedFishing", "GetPlayersFishing")
+network.Instancing_PlayerEnterInstance:FireServer("AdvancedFishing")
+network.Instancing_InvokeCustomFromClient:FireServer("AdvancedFishing", "GetPlayersFishing")
+
+local FishingModule = require(Active.AdvancedFishing.ClientModule.FishingGame)
+local Functions = {}
 
 for i, v in pairs(FishingModule) do
     Functions[i] = v
