@@ -80,7 +80,7 @@ while task.wait(1) do
 
             repeat
                 network.Instancing_FireCustomFromClient:FireServer("AdvancedFishing", "Clicked")
-                wait()
+                runService.RenderStepped:Wait()
             until not active:FindFirstChild("AdvancedFishing") or (myAnchor and getBubbles(myAnchor)) or InGame
 
             if active:FindFirstChild("AdvancedFishing") then
@@ -91,7 +91,7 @@ while task.wait(1) do
 
             repeat
                 network.Instancing_FireCustomFromClient:FireServer("AdvancedFishing", "Clicked")
-                wait()
+                run.RenderStepped:Wait()
             until not active:FindFirstChild("AdvancedFishing") or (getRod() and getRod().Parent.Bobber.Transparency <= 0)
         end
     end)
