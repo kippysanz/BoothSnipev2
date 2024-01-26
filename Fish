@@ -80,7 +80,7 @@ while task.wait(1) do
         local FishingInstance = Container.__INSTANCE_CONTAINER.Active:FindFirstChild("AdvancedFishing")
 
         if FishingInstance and not InGame then
-            Network.Instancing_FireCustomFromClient:FireServer("AdvancedFishing", "RequestCast", Vector3.new(1473.1949462890625, 61.114078521728516, -4448.404296875))
+            Network.Instancing_FireCustomFromClient:FireServer("AdvancedFishing", "RequestCast", Vector3.new(1473.1949462890625 + math.random(-2, 5), 61.114078521728516, -4448.404296875))
             local MyAnchor = getRod():WaitForChild("FishingLine").Attachment0
                 
             repeat
