@@ -10,9 +10,7 @@ end
 
 Teleport(workspace.__THINGS.Instances.AdvancedFishing.Teleports.Enter.Position)
 
-repeat 
-    RunService.RenderStepped:Wait()
-until Active.AdvancedFishing.ClientModule.FishingGame
+
 
 local Workspace = game:GetService("Workspace")
 local RunService = game:GetService("RunService")
@@ -24,7 +22,14 @@ local Debris = Workspace:WaitForChild("__DEBRIS")
 local Network = ReplicatedStorage:WaitForChild("Network")
 local Functions = {}
 
-local FishingModule = require(Active.AdvancedFishing.ClientModule.FishingGame)
+local FishingModule
+
+repeat 
+    RunService.RenderStepped:Wait()
+    pcall(function()
+        FishingModule = require(Active.AdvancedFishing.ClientModule.FishingGame)
+    end)
+until FishingModule
 
 for i, v in pairs(FishingModule) do
     Functions[i] = v
