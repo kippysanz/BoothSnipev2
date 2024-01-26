@@ -70,23 +70,16 @@ while task.wait(1) do
 
             local myAnchor = getRod():WaitForChild("FishingLine").Attachment0
 
-            repeat
+            while not active:FindFirstChild("AdvancedFishing") or (myAnchor and getBubbles(myAnchor)) or InGame or (getRod() and getRod().Parent.Bobber.Transparency <= 0) do 
                 network.Instancing_FireCustomFromClient:FireServer("AdvancedFishing", "Clicked")
                 runService.RenderStepped:Wait()
-            until not active:FindFirstChild("AdvancedFishing") or (myAnchor and getBubbles(myAnchor)) or InGame
 
-            if active:FindFirstChild("AdvancedFishing") then
-                network.Instancing_FireCustomFromClient:FireServer("AdvancedFishing", "RequestReel")
+                if active:FindFirstChild("AdvancedFishing") then
+                    network.Instancing_FireCustomFromClient:FireServer("AdvancedFishing", "RequestReel")
+                end
                 
-                repeat
-                    network.Instancing_FireCustomFromClient:FireServer("AdvancedFishing", "Clicked")
-                    runService.RenderStepped:Wait()
-                until InGame == false
-            end
-
-            repeat
                 runService.RenderStepped:Wait()
-            until not active:FindFirstChild("AdvancedFishing") or (getRod() and getRod().Parent.Bobber.Transparency <= 0)
+            end
         end
     end)
 end
