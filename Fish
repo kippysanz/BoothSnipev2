@@ -32,9 +32,12 @@ AdvancedFishingModule.StopGame = function(...)
 end
 
 local function waitGameState(state)
+    local clicked 
     repeat
-        network.Instancing_FireCustomFromClient:FireServer("AdvancedFishing", "Clicked")
-        runService.RenderStepped:Wait()
+        clicked = runService.Heartbeat:Connect(function()
+            network.Instancing_FireCustomFromClient:FireServer("AdvancedFishing", "Clicked")
+            clicked:Disconnect()
+        end)
     until InGame == state
 end
 
@@ -89,7 +92,6 @@ while task.wait(1) do
             end
 
             repeat
-                network.Instancing_FireCustomFromClient:FireServer("AdvancedFishing", "Clicked")
                 runService.RenderStepped:Wait()
             until not active:FindFirstChild("AdvancedFishing") or (getRod() and getRod().Parent.Bobber.Transparency <= 0)
         end
