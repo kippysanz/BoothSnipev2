@@ -11,8 +11,6 @@ local network = replicatedStorage:WaitForChild("Network")
 local AdvancedFishingModule = require(container.__INSTANCE_CONTAINER.Active:WaitForChild("AdvancedFishing").ClientModule.FishingGame)
 local functions = {}
 
--- functions
-
 for i,v in pairs(AdvancedFishingModule) do 
     functions[i] = v
 end
@@ -68,26 +66,14 @@ while task.wait(1) do
         if fishingInstance and not InGame then
             network.Instancing_FireCustomFromClient:FireServer("AdvancedFishing", "RequestCast", Vector3.new(1158 + math.random(-10, 10), 75, -3454 + math.random(-10, 10)))
 
-            local myAnchor = getRod():WaitForChild("FishingLine").Attachment0
-
             repeat
                 network.Instancing_FireCustomFromClient:FireServer("AdvancedFishing", "Clicked")
                 runService.RenderStepped:Wait()
-            until not active:FindFirstChild("AdvancedFishing") or (myAnchor and getBubbles(myAnchor)) or InGame
+            until not active:FindFirstChild("AdvancedFishing") or InGame
 
             if active:FindFirstChild("AdvancedFishing") then
                 network.Instancing_FireCustomFromClient:FireServer("AdvancedFishing", "RequestReel")
-                
-                repeat
-                    network.Instancing_FireCustomFromClient:FireServer("AdvancedFishing", "Clicked")
-                    runService.RenderStepped:Wait()
-                until InGame == false
             end
-
-            repeat
-                network.Instancing_FireCustomFromClient:FireServer("AdvancedFishing", "Clicked")
-                runService.RenderStepped:Wait()
-            until not active:FindFirstChild("AdvancedFishing") or (getRod() and getRod().Parent.Bobber.Transparency <= 0)
         end
     end)
 end
