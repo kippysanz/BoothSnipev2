@@ -2,6 +2,7 @@ if not game:IsLoaded() then game.Loaded:Wait() end
 
 local Players = game:GetService("Players")
 local LocalPlayer = Players.LocalPlayer
+local RunService = game:GetService("RunService")
 
 local Teleport = function(Pos) 
     LocalPlayer.Character:PivotTo(CFrame.new(Pos))
@@ -9,7 +10,9 @@ end
 
 Teleport(workspace.__THINGS.Instances.AdvancedFishing.Teleports.Enter.Position)
 
-wait(4)
+repeat 
+    RunService.RenderStepped:Wait()
+until Active.AdvancedFishing.ClientModule.FishingGame
 
 local Workspace = game:GetService("Workspace")
 local RunService = game:GetService("RunService")
