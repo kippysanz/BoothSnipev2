@@ -34,7 +34,7 @@ end
 local function waitGameState(state)
     repeat
         network.Instancing_FireCustomFromClient:FireServer("AdvancedFishing", "Clicked")
-        runService.Heartbeat:Wait()
+        runService.RenderStepped:Wait()
     until InGame == state
 end
 
