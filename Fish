@@ -71,6 +71,7 @@ while task.wait(1) do
             local myAnchor = getRod():WaitForChild("FishingLine").Attachment0
 
             repeat
+                network.Instancing_FireCustomFromClient:FireServer("AdvancedFishing", "Clicked")
                 runService.RenderStepped:Wait()
             until not active:FindFirstChild("AdvancedFishing") or (myAnchor and getBubbles(myAnchor)) or InGame
 
