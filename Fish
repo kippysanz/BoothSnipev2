@@ -1,0 +1,95 @@
+local players = game:GetService("Players")
+local workspace = game:GetService("Workspace")
+local runService = game:GetService("RunService")
+local replicatedStorage = game:GetService("ReplicatedStorage")
+
+local localPlayer = players.LocalPlayer
+local container = workspace:WaitForChild("__THINGS")
+local active = container:WaitForChild("__INSTANCE_CONTAINER"):WaitForChild("Active")
+local debris = workspace:WaitForChild("__DEBRIS")
+local network = replicatedStorage:WaitForChild("Network")
+local AdvancedFishingModule = require(container.__INSTANCE_CONTAINER.Active:WaitForChild("AdvancedFishing").ClientModule.FishingGame)
+local functions = {}
+
+-- functions
+
+for i,v in pairs(AdvancedFishingModule) do 
+    functions[i] = v
+end
+
+AdvancedFishingModule.IsFishInBar = function()
+    return math.random(1, 6) ~= 1
+end
+
+AdvancedFishingModule.StartGame = function(...)
+    InGame = true
+    return functions.StartGame(...)
+end
+
+AdvancedFishingModule.StopGame = function(...)
+    InGame = false
+    return functions.StopGame(...)
+end
+
+local function waitGameState(state)
+    repeat
+        runService.RenderStepped:Wait()
+    until InGame == state
+end
+
+local function getRod()
+    return localPlayer.Character and localPlayer.Character:FindFirstChild("Rod", true)
+end
+
+local function getBubbles(anchor)
+    local myBobber = nil
+    local myBubbles = false
+    local closestBobber = math.huge
+    
+
+
+    for _, v in pairs(active.Fishing.Bobbers:GetChildren()) do
+        local distance = (v.Bobber.CFrame.Position - anchor.CFrame.Position).Magnitude
+
+        if distance <= closestBobber then
+            myBobber = v.Bobber
+            closestBobber = distance
+        end
+    end
+    
+    if myBobber then 
+        for _, v in pairs(debris:GetChildren()) do 
+
+            if v.Name == "host" and v:FindFirstChild("Attachment") and (v.Attachment:FindFirstChild("Bubbles") or v.Attachment:FindFirstChild("Rare Bubbles")) and (v.CFrame.Position - myBobber.CFrame.Position).Magnitude <= 1 then 
+                myBubbles = true
+                break
+            end
+        end
+    end
+
+    return myBubbles
+end
+
+while task.wait(1) do
+    pcall(function()
+        local fishingInstance = container.__INSTANCE_CONTAINER.Active:FindFirstChild("AdvancedFishing")
+        if fishingInstance and not InGame then
+            network.Instancing_FireCustomFromClient:FireServer("Fishing", "RequestCast", Vector3.new(1158 + math.random(-10, 10), 75, -3454 + math.random(-10, 10)))
+
+            local myAnchor = getRod():WaitForChild("FishingLine").Attachment0
+            repeat
+                network.Instancing_FireCustomFromClient:FireServer("Fishing", "Clicked")
+            until not active:FindFirstChild("AdvancedFishing") or (myAnchor and getBubbles(myAnchor)) or InGame
+
+            if active:FindFirstChild("AdvancedFishing") then
+                network.Instancing_FireCustomFromClient:FireServer("Fishing", "RequestReel")
+                waitGameState(true)
+                waitGameState(false)
+            end
+
+            repeat
+                network.Instancing_FireCustomFromClient:FireServer("Fishing", "Clicked")
+            until not active:FindFirstChild("AdvancedFishing") or (getRod() and getRod().Parent.Bobber.Transparency <= 0)
+        end
+    end)
+end
