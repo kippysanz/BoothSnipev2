@@ -13,8 +13,8 @@ local Functions = {}
 
 if not game:IsLoaded() then game.Loaded:Wait() end
 
-network.Instancing_PlayerEnterInstance:FireServer("AdvancedFishing")
-network.Instancing_InvokeCustomFromClient:FireServer("AdvancedFishing", "GetPlayersFishing")
+Network.Instancing_PlayerEnterInstance:FireServer("AdvancedFishing")
+Network.Instancing_InvokeCustomFromClient:FireServer("AdvancedFishing", "GetPlayersFishing")
 
 for i, v in pairs(FishingModule) do
     Functions[i] = v
