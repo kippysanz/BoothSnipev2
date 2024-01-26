@@ -31,13 +31,6 @@ AdvancedFishingModule.StopGame = function(...)
     return functions.StopGame(...)
 end
 
-local function waitGameState(state)
-    repeat
-        network.Instancing_FireCustomFromClient:FireServer("AdvancedFishing", "Clicked")
-        runService.RenderStepped:Wait()
-    until InGame == state
-end
-
 local function getRod()
     return localPlayer.Character and localPlayer.Character:FindFirstChild("Rod", true)
 end
@@ -46,8 +39,6 @@ local function getBubbles(anchor)
     local myBobber = nil
     local myBubbles = false
     local closestBobber = math.huge
-    
-
 
     for _, v in pairs(active.AdvancedFishing.Bobbers:GetChildren()) do
         local distance = (v.Bobber.CFrame.Position - anchor.CFrame.Position).Magnitude
@@ -85,7 +76,11 @@ while task.wait(1) do
 
             if active:FindFirstChild("AdvancedFishing") then
                 network.Instancing_FireCustomFromClient:FireServer("AdvancedFishing", "RequestReel")
-                waitGameState(false)
+                
+                repeat
+                    network.Instancing_FireCustomFromClient:FireServer("AdvancedFishing", "Clicked")
+                    runService.RenderStepped:Wait()
+                until InGame == false
             end
 
             repeat
