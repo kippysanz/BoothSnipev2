@@ -56,7 +56,7 @@ local function getBubbles(anchor)
     return myBubbles
 end
 
-while wait(1) do
+while wait() do
     pcall(function()
         local FishingInstance = Container.__INSTANCE_CONTAINER.Active:FindFirstChild("AdvancedFishing")
 
