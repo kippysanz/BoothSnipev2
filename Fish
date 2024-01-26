@@ -77,8 +77,13 @@ while task.wait(1) do
             network.Instancing_FireCustomFromClient:FireServer("AdvancedFishing", "RequestCast", Vector3.new(1158 + math.random(-10, 10), 75, -3454 + math.random(-10, 10)))
 
             local myAnchor = getRod():WaitForChild("FishingLine").Attachment0
+            local clicked
+            
             repeat
-                network.Instancing_FireCustomFromClient:FireServer("AdvancedFishing", "Clicked")
+                clicked = runService.RenderStepped:Connect(function()
+                    network.Instancing_FireCustomFromClient:FireServer("AdvancedFishing", "Clicked")
+                    clicked:Disconnect()
+                end)
             until not active:FindFirstChild("AdvancedFishing") or (myAnchor and getBubbles(myAnchor)) or InGame
 
             if active:FindFirstChild("AdvancedFishing") then
@@ -88,7 +93,10 @@ while task.wait(1) do
             end
 
             repeat
-                network.Instancing_FireCustomFromClient:FireServer("AdvancedFishing", "Clicked")
+                clicked = runService.RenderStepped:Connect(function()
+                    network.Instancing_FireCustomFromClient:FireServer("AdvancedFishing", "Clicked")
+                    clicked:Disconnect()
+                end)
             until not active:FindFirstChild("AdvancedFishing") or (getRod() and getRod().Parent.Bobber.Transparency <= 0)
         end
     end)
