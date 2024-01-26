@@ -38,6 +38,7 @@ local function waitGameState(state)
             network.Instancing_FireCustomFromClient:FireServer("AdvancedFishing", "Clicked")
             clicked:Disconnect()
         end)
+        runService.Heartbeat:Wait()
     until InGame == state
 end
 
