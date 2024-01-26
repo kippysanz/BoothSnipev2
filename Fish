@@ -9,7 +9,7 @@ end
 
 Teleport(workspace.__THINGS.Instances.AdvancedFishing.Teleports.Enter.Position)
 
-wait(5)
+wait(4)
 
 local Workspace = game:GetService("Workspace")
 local RunService = game:GetService("RunService")
